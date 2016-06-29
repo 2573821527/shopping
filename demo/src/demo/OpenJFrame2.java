@@ -49,10 +49,16 @@ public class OpenJFrame2 {
 		frame.setTitle("用户");
 		frame.getContentPane().setLayout(null);
 		
-		JLabel label = new JLabel("\u767B\u5F55\u6210\u529F");
+		
+	
+		frame.setVisible(true);
+		JLabel label = new JLabel("登录成功");
 		label.setBounds(10, 10, 54, 15);
 		frame.getContentPane().add(label);
-		frame.setVisible(true);
+		demo d=new demo();
+		//String a=d.getClass().
+		//JLabel label1 = new JLabel();
+		
 	}
 	 public OpenJFrame2(JFrame frame){
 	      frame.setVisible(false);
