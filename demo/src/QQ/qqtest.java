@@ -6,6 +6,12 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
@@ -14,7 +20,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 
 public class qqtest extends Thread{
-
+	private Socket client = null;
 	private JFrame frame;
 
 	/**
@@ -44,6 +50,10 @@ public class qqtest extends Thread{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+//		InputStream in=null;
+//		OutputStream out=null;
+//		DataInputStream dis=null;
+//		DataOutputStream dos=null;
 		frame = new JFrame();
 		frame.setBounds(100, 100, 466, 404);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,12 +67,27 @@ public class qqtest extends Thread{
 		JTextArea txtrAa = new JTextArea();
 		txtrAa.setBounds(0, 259, 346, 85);
 		frame.getContentPane().add(txtrAa);
+
 		
 		JTextArea txtrDd = new JTextArea();
 		txtrDd.setEditable(false);
 		txtrDd.setBounds(0, 10, 346, 229);
 		frame.getContentPane().add(txtrDd);
 		
+		JTextArea textArea = new JTextArea();
+		textArea.setBounds(-3, 259, 4, 24);
+		frame.getContentPane().add(textArea);
+//		try {
+//			in=client.getInputStream();
+//			dis = new DataInputStream(in);
+//			out = client.getOutputStream();
+//			dos = new DataOutputStream(out);
+//			String msg = dis.readUTF();
+//			dos.writeUTF(msg);
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 		JButton btnNewButton = new JButton("\u5173\u95ED");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -103,10 +128,7 @@ public class qqtest extends Thread{
 		btnNewButton_2.setForeground(Color.BLACK);
 		btnNewButton_2.setBounds(-13, 238, 51, 23);
 		frame.getContentPane().add(btnNewButton_2);
-		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(-3, 259, 4, 24);
-		frame.getContentPane().add(textArea);
+
 		
 
 		
