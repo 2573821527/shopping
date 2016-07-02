@@ -9,12 +9,14 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,6 +30,7 @@ import java.util.Date;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.SystemColor;
@@ -46,6 +49,8 @@ public class qqtest extends Thread{
 	private static BufferedReader br;
 	private static JTextArea txt1;
 	private static JTextArea txt2;
+	private static int rgb;
+	private static Graphics g;
 	/**
 	 * Launch the application.
 	 */
@@ -75,7 +80,10 @@ public class qqtest extends Thread{
 		frame.getContentPane().add(txtrS);
 		
 		txt1 = new JTextArea();
-		txt1.setBounds(-3, 340, 346, 110);
+		txt1.setLineWrap(true);
+		txt1.setWrapStyleWord(true);
+		txt1.setBounds(-3, 336, 346, 114);
+		txt1.setComponentZOrder(txt1, 9);
 		frame.getContentPane().add(txt1);
 		txt1.setBackground(new Color(255,255,255));
         txt1.setBorder(BorderFactory.createTitledBorder(""));
@@ -201,33 +209,62 @@ public class qqtest extends Thread{
 				}
 			}
 		});
+		JLabel picture2=new JLabel();
+		picture2.setLabelFor(txt1);
+		picture2.setIcon(new ImageIcon("D:\\javaproject\\demo\\images\\20090112112114631.jpg"));
+		picture2.setForeground(Color.BLACK);
+		picture2.setBackground(Color.BLUE);
+		picture2.setBounds(7, 367, 122, 80);
+		//picture2.setComponentZOrder(null, 88888);
+		frame.getContentPane().setComponentZOrder(picture2, 10);
+	   // frame.getContentPane().add(picture2);
+		
 		button.setContentAreaFilled(false);
 		button.setBounds(76,312,35,30);
 		button.setBorder(null);
 		frame.getContentPane().add(button);
 		
-		JButton btnNewButton_1 = new JButton("New button",new ImageIcon("images/4.png"));
-		btnNewButton_1.addActionListener(new ActionListener() {
+		JButton picture = new JButton("New button",new ImageIcon("images/4.png"));
+		picture.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser jfc=new JFileChooser();				
-				File file=jfc.getSelectedFile();
-				String open=file.getAbsolutePath();
-				System.out.println(open);
-/*                try {
-					FileInputStream fis=new FileInputStream(file);
-					byte[] sends=new byte[1024];
-					
-				} catch (FileNotFoundException e1) {
+              picture.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+                    JFileChooser jfc=new JFileChooser();
+                    jfc.showSaveDialog(null);
+                    File f=jfc.getSelectedFile();
+/*                   try {
+					BufferedImage image=ImageIO.read(f);
+					ImageIO.write(image, "png",new File("d:\\test.png"));
+				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}*/
-                
+                   Image[] array=new Image[10];
+                   try {
+					Image image=ImageIO.read(f);
+				    picture2.setIcon(new ImageIcon("images/4.png"));
+				    
+
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+                   
+				}
+			});  
 			}
 		});
-		btnNewButton_1.setBounds(127, 311, 32, 30);
-		btnNewButton_1.setBorder(null);
-		btnNewButton_1.setContentAreaFilled(false);
-		frame.getContentPane().add(btnNewButton_1);
+
+		
+		picture.setBounds(127, 313, 25, 25);
+		picture.setBorder(null);
+		//picture.setContentAreaFilled(false);
+		picture.setBackground(new Color(255,255,255));
+		frame.getContentPane().add(picture);
+
         frame.setVisible(true);
 	}
 	private static  void getConnection(){
