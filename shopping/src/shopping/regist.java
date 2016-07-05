@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import io.ObjectStream;
 import model.person;
+import port.TCPClient;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -31,6 +32,7 @@ public class regist extends JFrame {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JPasswordField passwordField;
+	private JFrame frame;
 
 	/**
 	 * Launch the application.
@@ -39,7 +41,7 @@ public class regist extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					regist frame = new regist(null);
+					regist frame = new regist();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +53,8 @@ public class regist extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public regist( JFrame parents) {
+	public regist() {
+		this.frame=this;
 		setTitle("注册页面");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -79,15 +82,25 @@ public class regist extends JFrame {
 		JButton button = new JButton("完成注册");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				person p=new person();
-                p.setUsername(textField.getText());
-                p.setPassword(new String(passwordField.getPassword()));
-                p.setName(textField_2.getText());
-                p.setAge(textField_3.getText());
-				ObjectStream.write("/users/" +textField.getText()+ ".dat", p);
+
 /*				person p1=ObjectStream.read(person.class, "/users/"+textField.getText()+".dat");
 				System.out.println(p1);*/
-				JOptionPane.showMessageDialog(null, "注册成功");
+				String msg2="regist@#@"+textField.getText()+"@#@"+"";
+				String result=new TCPClient().send(msg2);
+				
+				if("success".equals(result)){
+					person p=new person();
+	                p.setUsername(textField.getText());
+	                p.setPassword(new String(passwordField.getPassword()));
+	                p.setName(textField_2.getText());
+	                p.setAge(textField_3.getText());
+					ObjectStream.write("/users/" +textField.getText()+ ".dat", p);
+					JOptionPane.showMessageDialog(null, "注册成功");
+					frame.setVisible(false);
+					
+				}else{
+					JOptionPane.showMessageDialog(null, result.split("@#@")[1]);
+				}
 			}
 		});
 		button.setBounds(156, 206, 93, 23);
@@ -111,6 +124,5 @@ public class regist extends JFrame {
 		passwordField = new JPasswordField();
 		passwordField.setBounds(156, 63, 152, 21);
 		contentPane.add(passwordField);
-		this.setVisible(true);
 	}
 }

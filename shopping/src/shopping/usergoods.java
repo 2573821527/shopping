@@ -20,7 +20,7 @@ public class usergoods extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -31,12 +31,12 @@ public class usergoods extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
 	 */
-	public usergoods() {
+	public usergoods(int id,String name,float price,String num) {
 		setTitle("商品详情");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 405);
@@ -53,11 +53,11 @@ public class usergoods extends JFrame {
 		label_1.setBounds(35, 100, 54, 15);
 		contentPane.add(label_1);
 		
-		JLabel label_2 = new JLabel("单位:");
+		JLabel label_2 = new JLabel("单位:元");
 		label_2.setBounds(321, 100, 54, 15);
 		contentPane.add(label_2);
 		
-		JLabel label_4 = new JLabel("简介:");
+		JLabel label_4 = new JLabel("ID:");
 		label_4.setBounds(35, 141, 44, 46);
 		contentPane.add(label_4);
 		
@@ -65,15 +65,15 @@ public class usergoods extends JFrame {
 		button.setBounds(175, 243, 126, 23);
 		contentPane.add(button);
 		
-		JLabel lblNewLabel = new JLabel("农夫山泉");
+		JLabel lblNewLabel = new JLabel(name);
 		lblNewLabel.setBounds(99, 57, 162, 15);
 		contentPane.add(lblNewLabel);
 		
-		JLabel label_3 = new JLabel("2");
+		JLabel label_3 = new JLabel(String.valueOf(id));
 		label_3.setBounds(99, 100, 54, 15);
 		contentPane.add(label_3);
 		
-		JLabel lblNewLabel_1 = new JLabel("纯天然矿泉水");
+		JLabel lblNewLabel_1 = new JLabel(String.valueOf(price));
 		lblNewLabel_1.setBounds(99, 141, 251, 46);
 		contentPane.add(lblNewLabel_1);
 		
@@ -87,7 +87,7 @@ public class usergoods extends JFrame {
 		lblNewLabel_2.setBounds(35, 247, 71, 15);
 		contentPane.add(lblNewLabel_2);
 		
-		JLabel label_5 = new JLabel("库存: 200");
+		JLabel label_5 = new JLabel("库存: "+num);
 		label_5.setBounds(99, 273, 135, 15);
 		contentPane.add(label_5);
 		

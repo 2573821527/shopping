@@ -14,6 +14,7 @@ import javax.swing.border.EmptyBorder;
 
 import io.ObjectStream;
 import model.person;
+import port.TCPClient;
 
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
@@ -51,6 +52,7 @@ public class userlogin1 extends JFrame {
 	 * Create the frame.
 	 */
 	public userlogin1() {
+		this.frame=this;
 		setTitle("中北线在商场-登录");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 461, 349);
@@ -79,30 +81,19 @@ public class userlogin1 extends JFrame {
 		JButton button = new JButton("登录系统");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-                File f=new File("D:/store/users/");
-                String[] str=f.list();
-/*                for(int i=0;i<str.length;i++){
-                	if(str[i].equals(textField.getText()+".dat")){
-                		person p=ObjectStream.read(person.class, str[i]);
-                		if(p.getPassword().equals(passwordField.getPassword())){
-                			new userstore(frame);
-                		}
-                	}	
-                }*/
-                for(int i=0;i<str.length;i++){
-                	System.out.println(str[i]);
-                	person p=ObjectStream.read(person.class, "/users/"+str[i]);
-                	if(p.getUsername().equals(textField.getText()+".dat")){
-                		System.out.println( p );
-                		if(p.getPassword().equals(new String(passwordField.getPassword()))){
-                			new userstore(frame);
-                		}else{
-                    		JOptionPane.showMessageDialog(null, "输入密码有误");
-                	    }
-                	}else{
-                		    JOptionPane.showMessageDialog(null, "用户不存在");
-                	}
-                }
+				String account=textField.getText().trim();
+				String password=new String(passwordField.getPassword());
+				String msg="login@#@"+account+"@#@"+password;
+				String result=new TCPClient().send(msg);
+				
+				if("success".equals(result)){
+					userstore us=new userstore();
+					us.setVisible(true);
+					frame.setVisible(false);
+				}else{
+					JOptionPane.showMessageDialog(null, result.split("@#@")[1]);
+				}
+				
 			}
 		});
 		button.setBounds(87, 221, 93, 23);
@@ -116,28 +107,16 @@ public class userlogin1 extends JFrame {
 		JButton button_1 = new JButton("注册");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				regist r=new regist(frame);
-				r.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				String msg2="regist@#@"+textField.getText()+"@#@"+new String(passwordField.getPassword());
+				String result=new TCPClient().send(msg2);
+				if(result.equals("success")){
+					JOptionPane.showMessageDialog(null, "注册成功");
+				}else{
+					JOptionPane.showMessageDialog(null, "注册失败");
+				}
 			}
 		});
 		button_1.setBounds(255, 221, 93, 23);
 		contentPane.add(button_1);
-	}
-	private void getconnection(){
-
-		try {
-			new userlogin1();
-			while(true){
-			socket=new Socket(InetAddress.getLocalHost(),9000);
-			socket.setKeepAlive(true);
-			//client.setKeepAlive(true);
-			}
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }
