@@ -34,22 +34,10 @@ public class adminstore extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					adminstore frame = new adminstore(null);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	public adminstore(JFrame parents) {
 		this.frame = this;
-		setTitle("中北商场后台管理系统--当前用户:张三");
+		setTitle("中北商场后台管理系统--当前用户:admin");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 732, 467);
 		contentPane = new JPanel();
@@ -136,7 +124,7 @@ public class adminstore extends JFrame {
 		button_3.setBounds(613, 6, 93, 23);
 		contentPane.add(button_3);
 
-		JLabel label = new JLabel("当前在线用户人数: 5");
+		JLabel label = new JLabel("当前在线用户人数: ");
 		label.setBounds(10, 10, 162, 15);
 		contentPane.add(label);
 

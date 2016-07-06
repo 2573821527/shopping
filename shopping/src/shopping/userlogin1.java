@@ -87,7 +87,7 @@ public class userlogin1 extends JFrame {
 				String result=new TCPClient().send(msg);
 				
 				if("success".equals(result)){
-					userstore us=new userstore();
+					userstore us=new userstore(frame,textField.getText());
 					us.setVisible(true);
 					frame.setVisible(false);
 				}else{

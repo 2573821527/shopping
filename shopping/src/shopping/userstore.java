@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,32 +30,19 @@ public class userstore extends JFrame {
 	private static JPanel contentPane;
 	private JTextField textField;
 	private JTable table;
-   
+    private int num=0;
 	private JFrame frame;
 
 	/**
 	 * Launch the application.
 	 */
-/*	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					userstore frame = new userstore();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-*/
 	/**
 	 * Create the frame.
 	 */
 
-	public userstore(JFrame parents) {
-        this.frame=this;
-		setTitle("中北在线商场--当前用户:李四");
+	public userstore(JFrame parents, String name) {
+		this.frame = this;
+		setTitle("中北在线商场--当前用户:" + name);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 732, 467);
 		contentPane = new JPanel();
@@ -71,19 +59,17 @@ public class userstore extends JFrame {
 		model.addColumn("名称");
 		model.addColumn("单价(人民币)");
 		model.addColumn("库存");
-		File f = new File("D:/store/goods/");
-		String[] str = f.list();
-
-		for (int i = 0; i < str.length; i++) {
-			goods g = ObjectStream.read(goods.class, "/goods/" + str[i]);
-			model.addRow(new String[] { String.valueOf(g.getGid()), g.getGoodsName(), String.valueOf(g.getPrice()),
-					g.getSum() });
+		String msg6 = "data@#@";
+		String result = new TCPClient().send(msg6);
+		int x = Integer.parseInt(result);
+		System.out.println(x);
+		for (int i = 0; i < x; i++) {
+			String msg5 = "duqu@#@" + i;
+			String result2 = new TCPClient().send(msg5);
+			System.out.println(result.toString());
+			String[] str3 = result2.split("@#@");
+			model.addRow(new String[] { str3[0], str3[1], str3[2], str3[3] });
 		}
-		String msg5="duqu@#@";
-		String result = new TCPClient().send(msg5);
-		String[] str2 = result.split("@#@");
-		model.setRowCount(0);
-		model.addRow(new String[] { str[0], str[1], str[2], str[3] });
 		table = new JTable(model);
 
 		JScrollPane pane = new JScrollPane(table);
@@ -97,7 +83,7 @@ public class userstore extends JFrame {
 				if (table.getSelectedRow() != -1) {
 					int id = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0));
 					goods g3 = ObjectStream.read(goods.class, "/goods/" + id + ".dat");
-					usergoods d = new usergoods(g3.getGid(), g3.getGoodsName(), g3.getPrice(), g3.getSum());
+					usergoods d = new usergoods(g3.getGid(), g3.getGoodsName(), g3.getPrice(), g3.getSum(),name);
 					d.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 					d.setVisible(true);
 				} else {
@@ -113,7 +99,7 @@ public class userstore extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				parents.setVisible(true);
-				
+
 			}
 		});
 		button_3.setBounds(613, 6, 93, 23);
@@ -127,7 +113,7 @@ public class userstore extends JFrame {
 		textField.setBounds(85, 46, 104, 21);
 		contentPane.add(textField);
 		textField.setColumns(10);
-
+      
 		JToggleButton button_4 = new JToggleButton("搜索");
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -148,28 +134,29 @@ public class userstore extends JFrame {
 								String.valueOf(g.getPrice()), g.getSum() });
 					}
 				}
-				/*
-				 * int id = Integer.parseInt(textField.getText());
-				 * model.setRowCount(0); goods g2 =
-				 * ObjectStream.read(goods.class, "/goods/" + id + ".dat");
-				 * model.addRow(new String[] { String.valueOf(g2.getGid()),
-				 * g2.getGoodsName(), String.valueOf(g2.getPrice()), g2.getSum()
-				 * });
-				 */
 			}
 		});
 		button_4.setBounds(197, 45, 93, 23);
 		contentPane.add(button_4);
+        String msg="data2@#@"+name;
+        String result2=new TCPClient().send(msg);
+        int x3=Integer.parseInt(result2);
+      
+        System.out.println("//"+x3);
+        for(int i=0;i<x3;i++){
+        	 String msg2="info@#@"+name+"@#@"+i;
+        	 String result3=new TCPClient().send(msg2);
+            num+=Integer.parseInt(result3);
+        }
 
-		JLabel label = new JLabel("购物详情: 8 件商品");
+		JLabel label = new JLabel("购物详情:"+num+"件商品");
 		label.setBounds(10, 10, 124, 15);
 		contentPane.add(label);
 
 		JButton button_5 = new JButton("查看购物车");
 		button_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				usercartframe cf = new usercartframe();
+				usercartframe cf = new usercartframe(name);
 				cf.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 				cf.setVisible(true);
 			}
