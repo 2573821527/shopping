@@ -43,7 +43,6 @@ public class adminstore extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 78, 696, 341);
@@ -62,6 +61,7 @@ public class adminstore extends JFrame {
 			model.addRow(new String[] { String.valueOf(g.getGid()), g.getGoodsName(), String.valueOf(g.getPrice()),
 					g.getSum() });
 		}
+		contentPane.setLayout(null);
 		table = new JTable(model);
 
 		JScrollPane pane = new JScrollPane(table);
@@ -70,6 +70,7 @@ public class adminstore extends JFrame {
 		contentPane.add(panel);
 
 		JButton button = new JButton("添加商品");
+		button.setBounds(386, 45, 93, 23);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -79,10 +80,10 @@ public class adminstore extends JFrame {
 
 			}
 		});
-		button.setBounds(386, 45, 93, 23);
 		contentPane.add(button);
 
 		JButton button_1 = new JButton("修改商品");
+		button_1.setBounds(489, 45, 93, 23);
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/*	*/
@@ -97,10 +98,10 @@ public class adminstore extends JFrame {
 				}
 			}
 		});
-		button_1.setBounds(489, 45, 93, 23);
 		contentPane.add(button_1);
 
 		JButton button_2 = new JButton("删除选中商品");
+		button_2.setBounds(587, 45, 119, 23);
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// 得到当前选中商品�?
@@ -111,21 +112,24 @@ public class adminstore extends JFrame {
 
 			}
 		});
-		button_2.setBounds(587, 45, 119, 23);
 		contentPane.add(button_2);
 
 		JButton button_3 = new JButton("退出登录");
+		button_3.setBounds(613, 6, 93, 23);
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.setVisible(false);
 				parents.setVisible(true);
 			}
 		});
-		button_3.setBounds(613, 6, 93, 23);
 		contentPane.add(button_3);
 
-		JLabel label = new JLabel("当前在线用户人数: ");
+		String msg = "pnum@#@";
+		String result = new TCPClient().send(msg);
+
+		JLabel label = new JLabel();
 		label.setBounds(10, 10, 162, 15);
+		label.setText("当前在线用户人数: " + result);
 		contentPane.add(label);
 
 		JLabel lblid = new JLabel("商品编号:");
@@ -138,6 +142,7 @@ public class adminstore extends JFrame {
 		textField.setColumns(10);
 
 		JToggleButton button_4 = new JToggleButton("搜索");
+		button_4.setBounds(180, 49, 93, 23);
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (button_4.isSelected()) {
@@ -161,8 +166,17 @@ public class adminstore extends JFrame {
 
 			}
 		});
-		button_4.setBounds(180, 49, 93, 23);
 		contentPane.add(button_4);
+
+		JButton button_5 = new JButton("刷新");
+		button_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				new adminstore(parents);
+			}
+		});
+		button_5.setBounds(489, 6, 93, 23);
+		contentPane.add(button_5);
 		this.setVisible(true);
 		parents.setVisible(false);
 

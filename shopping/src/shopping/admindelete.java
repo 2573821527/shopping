@@ -19,7 +19,8 @@ public class admindelete extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
-    private JFrame delframe;
+	private JFrame delframe;
+
 	/**
 	 * Launch the application.
 	 */
@@ -40,65 +41,65 @@ public class admindelete extends JFrame {
 	 * Create the frame.
 	 */
 	public admindelete(JFrame parents) {
-		this.delframe=this;
+		this.delframe = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JLabel lblId = new JLabel("ID");
 		lblId.setBounds(79, 20, 54, 15);
 		contentPane.add(lblId);
-		
+
 		textField = new JTextField();
 		textField.setBounds(143, 17, 187, 21);
 		contentPane.add(textField);
 		textField.setColumns(10);
-		
+
 		JLabel label = new JLabel("下架原因");
 		label.setBounds(79, 64, 54, 15);
 		contentPane.add(label);
-		
+
 		JCheckBox checkBox = new JCheckBox("商品销售慢");
 		checkBox.setBounds(143, 60, 103, 23);
 		contentPane.add(checkBox);
-		
+
 		JCheckBox checkBox_1 = new JCheckBox("厂家停产");
 		checkBox_1.setBounds(143, 85, 103, 23);
 		contentPane.add(checkBox_1);
-		
+
 		JCheckBox checkBox_2 = new JCheckBox("客户评价低");
 		checkBox_2.setBounds(143, 110, 103, 23);
 		contentPane.add(checkBox_2);
-		
+
 		JCheckBox checkBox_3 = new JCheckBox("价格过高");
 		checkBox_3.setBounds(143, 135, 103, 23);
 		contentPane.add(checkBox_3);
-		
+
 		JLabel label_1 = new JLabel("其他原因");
 		label_1.setBounds(79, 167, 54, 15);
 		contentPane.add(label_1);
-		
+
 		JTextArea textArea = new JTextArea();
 		textArea.setBounds(143, 164, 187, 51);
 		contentPane.add(textArea);
-		
+
 		JButton button = new JButton("确认删除");
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				File f=new File("D:/store/goods/"+textField.getText()+".dat");
-				if(f.exists()){
+				File f = new File("D:/store/goods/" + textField.getText() + ".dat");
+				if (f.exists()) {
 					f.delete();
 				}
 				delframe.setVisible(false);
 				parents.dispose();
-				new adminstore(delframe);	
+				new adminstore(delframe);
 			}
 		});
 		button.setBounds(166, 225, 93, 23);
 		contentPane.add(button);
-		
+
 	}
 }

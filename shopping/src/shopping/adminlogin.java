@@ -54,7 +54,7 @@ public class adminlogin extends JFrame {
 	 * Create the frame.
 	 */
 	public adminlogin() {
-		setTitle("中北线在商场管理系统-管理员登�?");
+		setTitle("中北线在商场管理系统-管理员登录");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 448, 349);
 		contentPane = new JPanel();

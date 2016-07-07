@@ -30,7 +30,7 @@ public class userstore extends JFrame {
 	private static JPanel contentPane;
 	private JTextField textField;
 	private JTable table;
-    private int num=0;
+	private int num = 0;
 	private JFrame frame;
 
 	/**
@@ -48,7 +48,6 @@ public class userstore extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(10, 78, 696, 341);
@@ -62,14 +61,13 @@ public class userstore extends JFrame {
 		String msg6 = "data@#@";
 		String result = new TCPClient().send(msg6);
 		int x = Integer.parseInt(result);
-		System.out.println(x);
 		for (int i = 0; i < x; i++) {
 			String msg5 = "duqu@#@" + i;
 			String result2 = new TCPClient().send(msg5);
-			System.out.println(result.toString());
 			String[] str3 = result2.split("@#@");
 			model.addRow(new String[] { str3[0], str3[1], str3[2], str3[3] });
 		}
+		contentPane.setLayout(null);
 		table = new JTable(model);
 
 		JScrollPane pane = new JScrollPane(table);
@@ -78,12 +76,13 @@ public class userstore extends JFrame {
 		contentPane.add(panel);
 
 		JButton button_2 = new JButton("查看商品详细信息(或双单击商品列表)");
+		button_2.setBounds(407, 45, 299, 23);
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (table.getSelectedRow() != -1) {
 					int id = Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 0));
 					goods g3 = ObjectStream.read(goods.class, "/goods/" + id + ".dat");
-					usergoods d = new usergoods(g3.getGid(), g3.getGoodsName(), g3.getPrice(), g3.getSum(),name);
+					usergoods d = new usergoods(g3.getGid(), g3.getGoodsName(), g3.getPrice(), g3.getSum(), name);
 					d.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 					d.setVisible(true);
 				} else {
@@ -91,18 +90,19 @@ public class userstore extends JFrame {
 				}
 			}
 		});
-		button_2.setBounds(407, 45, 299, 23);
 		contentPane.add(button_2);
 
 		JButton button_3 = new JButton("退出登录");
+		button_3.setBounds(613, 6, 93, 23);
 		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String msg3="exit@#@";
+				new TCPClient().send(msg3);
 				frame.setVisible(false);
 				parents.setVisible(true);
 
 			}
 		});
-		button_3.setBounds(613, 6, 93, 23);
 		contentPane.add(button_3);
 
 		JLabel lblid = new JLabel("商品名称:");
@@ -113,8 +113,9 @@ public class userstore extends JFrame {
 		textField.setBounds(85, 46, 104, 21);
 		contentPane.add(textField);
 		textField.setColumns(10);
-      
+
 		JToggleButton button_4 = new JToggleButton("搜索");
+		button_4.setBounds(197, 45, 93, 23);
 		button_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (button_4.isSelected()) {
@@ -136,24 +137,23 @@ public class userstore extends JFrame {
 				}
 			}
 		});
-		button_4.setBounds(197, 45, 93, 23);
 		contentPane.add(button_4);
-        String msg="data2@#@"+name;
-        String result2=new TCPClient().send(msg);
-        int x3=Integer.parseInt(result2);
-      
-        System.out.println("//"+x3);
-        for(int i=0;i<x3;i++){
-        	 String msg2="info@#@"+name+"@#@"+i;
-        	 String result3=new TCPClient().send(msg2);
-            num+=Integer.parseInt(result3);
-        }
+		String msg = "data2@#@" + name;
+		String result2 = new TCPClient().send(msg);
+		int x3 = Integer.parseInt(result2);
 
-		JLabel label = new JLabel("购物详情:"+num+"件商品");
+		for (int i = 0; i < x3; i++) {
+			String msg2 = "info@#@" + name + "@#@" + i;
+			String result3 = new TCPClient().send(msg2);
+			num += Integer.parseInt(result3);
+		}
+
+		JLabel label = new JLabel("购物详情:" + num + "件商品");
 		label.setBounds(10, 10, 124, 15);
 		contentPane.add(label);
 
 		JButton button_5 = new JButton("查看购物车");
+		button_5.setBounds(133, 6, 110, 23);
 		button_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				usercartframe cf = new usercartframe(name);
@@ -161,7 +161,18 @@ public class userstore extends JFrame {
 				cf.setVisible(true);
 			}
 		});
-		button_5.setBounds(133, 6, 110, 23);
 		contentPane.add(button_5);
+
+		JButton button = new JButton("刷新");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.setVisible(false);
+				new userstore(parents, name);
+			}
+		});
+		button.setBounds(510, 6, 93, 23);
+		contentPane.add(button);
+		this.setVisible(true);
+		parents.setVisible(false);
 	}
 }

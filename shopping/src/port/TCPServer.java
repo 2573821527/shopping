@@ -25,6 +25,7 @@ import shopping.userstore;
 public class TCPServer extends Thread {
 
 	private ServerSocket ss = null;
+	private int num=0;
 
 	public TCPServer() {
 		try {
@@ -57,11 +58,18 @@ public class TCPServer extends Thread {
 					if (f.exists()) {
 						person p = ObjectStream.read(person.class, "/users/" + m[1] + ".dat");
 						if (p.getPassword().equals(m[2])) {
+							num++;
 							result = "success";
 						} else {
 							result = "error@#@用户名密码错误";
 						}
 					}
+					break;
+				case "exit":
+					num--;
+					break;
+				case "pnum":
+					result=String.valueOf(num);
 					break;
 				case "regist":
 					File f2 = new File("D:/store/users/" + m[1] + ".dat");
@@ -128,13 +136,11 @@ public class TCPServer extends Thread {
 					goods g9 = ObjectStream.read(goods.class, "/goods/" + g5.getGid() + ".dat");
 					int num = Integer.parseInt(g9.getSum()) - Integer.parseInt(g5.getSum());
 					int num2 = g5.getGid();
-					g5.setSum(String.valueOf(num));
-					g5.setGid(g5.getGid());
-					g5.setGoodsName(g5.getGoodsName());
-					g5.setPrice(g5.getPrice());
-					ObjectStream.write("/goods/" + g5.getGid() + ".dat", g5);
-					File f3 = new File("D:/store/cart/user/" + m[2] + "/");
-					String[] child = f3.list();
+					g9.setSum(String.valueOf(num));
+					g9.setGid(g9.getGid());
+					g9.setGoodsName(g9.getGoodsName());
+					g9.setPrice(g9.getPrice());
+					ObjectStream.write("/goods/" + g9.getGid() + ".dat", g9);
 					File ff = new File("D:/store/cart/user/" + m[2] + "/" +str6[Integer.parseInt(m[1])]);
 					ff.delete();
 					result = String.valueOf(num2);
